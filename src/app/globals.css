@@ -1,70 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme inline {
   --color-background: #050816;
-  --color-foreground: #FFFFFF;
+  --color-foreground: #ffffff;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
+/* ─── ROOT TOKENS ─── */
 :root {
-  --bg-dark: #050816;
-  --color-cyan: #42C2FF;
-  --color-violet: #6E5BFF;
-  --color-purple: #A855F7;
+  --bg-deep: #050816;
+  --bg-mid: #090B1A;
+  --bg-surface: #0F1026;
+  --cyan: #42C2FF;
+  --violet: #6E5BFF;
+  --purple: #A855F7;
+  --text-primary: #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-muted: rgba(255, 255, 255, 0.35);
+  --border: rgba(255, 255, 255, 0.06);
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 999px;
+}
+
+/* ─── BASE ─── */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background-color: var(--bg-dark);
-  color: #FFFFFF;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
   overflow-x: hidden;
-  scroll-behavior: smooth;
-  font-family: system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+::selection {
+  background: rgba(66, 194, 255, 0.3);
+  color: white;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.15); }
+
+/* ─── UTILITIES ─── */
 .gradient-text {
-  background: linear-gradient(135deg, var(--color-cyan), var(--color-violet), var(--color-purple));
+  background: linear-gradient(135deg, var(--cyan), var(--violet), var(--purple));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid var(--border);
+}
+
 .clay-card {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.025);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 32px;
-  box-shadow: 
-    inset 0 1px 2px rgba(255, 255, 255, 0.05),
-    0 10px 40px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-xl);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
 }
 
 .clay-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(66, 194, 255, 0.15);
-  box-shadow: 
-    inset 0 1px 2px rgba(255, 255, 255, 0.05),
-    0 20px 40px rgba(0, 0, 0, 0.4),
-    0 0 30px rgba(110, 91, 255, 0.1);
+  transform: translateY(-6px);
+  border-color: rgba(66, 194, 255, 0.12);
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(66, 194, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-.glass-panel {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+/* ─── KEYFRAMES ─── */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
 }
 
-::-webkit-scrollbar {
-  width: 6px;
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
 }
-::-webkit-scrollbar-track {
-  background: var(--bg-dark);
+
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg); }
 }
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.8; }
 }

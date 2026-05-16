@@ -6,9 +6,9 @@ import DashboardPreview from '@/components/DashboardPreview';
 import Testimonials from '@/components/Testimonials';
 import Footer from '@/components/Footer';
 
-export default function HomePage() {
+export default function Home() {
   return (
-    <main className="w-full relative min-h-screen">
+    <main className="relative min-h-screen overflow-x-hidden">
       <Navbar />
       <Hero />
       <Features />

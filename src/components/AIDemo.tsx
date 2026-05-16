@@ -1,102 +1,155 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, User } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Sparkles } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+
+const itinerary = [
+  { day: 1, city: 'Tokyo',          detail: 'Shibuya Crossing, Meiji Shrine, Harajuku' },
+  { day: 2, city: 'Mount Fuji',     detail: 'Sunrise hike, Hakone hot springs' },
+  { day: 3, city: 'Kyoto',          detail: 'Fushimi Inari, Arashiyama bamboo grove' },
+  { day: 4, city: 'Osaka',          detail: 'Dotonbori street food, Osaka Castle' },
+  { day: 5, city: 'Nara',           detail: 'Todai-ji Temple, deer park' },
+  { day: 6, city: 'Hiroshima',      detail: 'Peace Memorial, Miyajima Island' },
+  { day: 7, city: 'Tokyo shopping', detail: 'Ginza, Akihabara, Tsukiji outer market' },
+];
 
 export default function AIDemo() {
-  const [step, setStep] = useState(0);
+  const [phase, setPhase] = useState<'idle' | 'user' | 'typing' | 'response'>('idle');
+  const [visibleDays, setVisibleDays] = useState(0);
+  const chatRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const sequence = async () => {
-      await new Promise(r => setTimeout(r, 1000));
-      setStep(1); // user message
-      await new Promise(r => setTimeout(r, 1000));
-      setStep(2); // ai typing
-      await new Promise(r => setTimeout(r, 2000));
-      setStep(3); // ai response
+    const seq = async () => {
+      await wait(800);
+      setPhase('user');
+      await wait(1200);
+      setPhase('typing');
+      await wait(2000);
+      setPhase('response');
+
+      // Stagger day reveals
+      for (let i = 1; i <= itinerary.length; i++) {
+        await wait(300);
+        setVisibleDays(i);
+      }
     };
-    sequence();
+    seq();
   }, []);
 
-  return (
-    <section className="py-32 relative z-10">
-      <div className="max-w-4xl mx-auto px-6">
-        <div className="mb-16 text-center">
-          <h2 className="text-4xl font-bold tracking-tight">Real-Time Assistant</h2>
-        </div>
+  useEffect(() => {
+    chatRef.current?.scrollTo({ top: chatRef.current.scrollHeight, behavior: 'smooth' });
+  }, [phase, visibleDays]);
 
-        <div className="glass-panel rounded-[32px] p-6 md:p-10 relative overflow-hidden">
-          <div className="flex flex-col gap-6 min-h-[400px]">
-            
+  return (
+    <section id="ai-demo" className="relative z-10 py-32">
+      <div className="max-w-4xl mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-[clamp(2rem,4vw,3.2rem)] font-bold tracking-tight">
+            AI Travel <span className="gradient-text">Assistant</span>
+          </h2>
+          <p className="mt-4 text-white/40 text-lg">Ask anything. Get a complete trip in seconds.</p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="glass rounded-[32px] overflow-hidden"
+        >
+          {/* Header bar */}
+          <div className="flex items-center gap-3 px-8 py-5 border-b border-white/[0.06]">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#42C2FF] to-[#6E5BFF] flex items-center justify-center shadow-md shadow-[#42C2FF]/20">
+              <Sparkles className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-[14px] font-semibold text-white/80">TravelOS Assistant</span>
+            <span className="ml-auto flex items-center gap-1.5 text-[11px] text-emerald-400 font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              Online
+            </span>
+          </div>
+
+          {/* Chat area */}
+          <div ref={chatRef} className="p-8 space-y-6 min-h-[420px] max-h-[520px] overflow-y-auto">
             <AnimatePresence>
-              {step >= 1 && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  className="flex gap-4 self-end max-w-[80%] flex-row-reverse"
+              {/* User message */}
+              {(phase === 'user' || phase === 'typing' || phase === 'response') && (
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex justify-end"
                 >
-                  <div className="w-10 h-10 shrink-0 rounded-full bg-white/10 flex items-center justify-center">
-                    <User className="w-5 h-5 text-white/70" />
-                  </div>
-                  <div className="bg-white/10 border border-white/20 rounded-2xl rounded-tr-sm p-4">
-                    <p className="text-sm md:text-base">Plan a 7 day Japan trip</p>
+                  <div className="max-w-[75%] px-6 py-4 rounded-3xl rounded-tr-lg bg-white/[0.08] border border-white/[0.1]">
+                    <p className="text-[15px]">Plan a 7 day Japan trip</p>
                   </div>
                 </motion.div>
               )}
-            </AnimatePresence>
 
-            <AnimatePresence>
-              {step === 2 && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  className="flex gap-4 max-w-[80%]"
+              {/* Typing indicator */}
+              {phase === 'typing' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="flex items-start gap-3"
                 >
-                  <div className="w-10 h-10 shrink-0 rounded-full bg-gradient-to-br from-[#42C2FF] to-[#6E5BFF] flex items-center justify-center shadow-lg shadow-[#42C2FF]/20">
-                    <Sparkles className="w-5 h-5 text-white" />
+                  <div className="w-8 h-8 shrink-0 rounded-full bg-gradient-to-br from-[#42C2FF] to-[#6E5BFF] flex items-center justify-center">
+                    <Sparkles className="w-4 h-4 text-white" />
                   </div>
-                  <div className="bg-gradient-to-br from-[#42C2FF]/10 to-[#6E5BFF]/10 border border-[#42C2FF]/20 rounded-2xl rounded-tl-sm p-5 flex items-center gap-2">
+                  <div className="px-6 py-4 rounded-3xl rounded-tl-lg bg-[#42C2FF]/[0.06] border border-[#42C2FF]/[0.1]">
                     <div className="flex gap-1.5">
                       <span className="w-2 h-2 rounded-full bg-[#42C2FF] animate-bounce" />
-                      <span className="w-2 h-2 rounded-full bg-[#42C2FF] animate-bounce [animation-delay:0.2s]" />
-                      <span className="w-2 h-2 rounded-full bg-[#42C2FF] animate-bounce [animation-delay:0.4s]" />
+                      <span className="w-2 h-2 rounded-full bg-[#42C2FF] animate-bounce [animation-delay:150ms]" />
+                      <span className="w-2 h-2 rounded-full bg-[#42C2FF] animate-bounce [animation-delay:300ms]" />
                     </div>
                   </div>
                 </motion.div>
               )}
-            </AnimatePresence>
 
-            <AnimatePresence>
-              {step === 3 && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  className="flex gap-4 max-w-[85%]"
+              {/* AI response */}
+              {phase === 'response' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-start gap-3"
                 >
-                  <div className="w-10 h-10 shrink-0 rounded-full bg-gradient-to-br from-[#42C2FF] to-[#6E5BFF] flex items-center justify-center shadow-lg shadow-[#42C2FF]/20">
-                    <Sparkles className="w-5 h-5 text-white" />
+                  <div className="w-8 h-8 shrink-0 rounded-full bg-gradient-to-br from-[#42C2FF] to-[#6E5BFF] flex items-center justify-center shadow-lg shadow-[#42C2FF]/20">
+                    <Sparkles className="w-4 h-4 text-white" />
                   </div>
-                  <div className="bg-gradient-to-br from-[#42C2FF]/10 to-[#6E5BFF]/10 border border-[#42C2FF]/20 rounded-2xl rounded-tl-sm p-6 text-sm md:text-base flex flex-col gap-3">
-                    <p className="font-semibold text-white">Here is your optimized itinerary:</p>
-                    <div className="space-y-2 mt-2">
-                      <div className="flex gap-3 items-center"><span className="text-[#42C2FF] font-medium w-16">Day 1</span> Tokyo</div>
-                      <div className="flex gap-3 items-center"><span className="text-[#42C2FF] font-medium w-16">Day 2</span> Mount Fuji</div>
-                      <div className="flex gap-3 items-center"><span className="text-[#42C2FF] font-medium w-16">Day 3</span> Kyoto</div>
-                      <div className="flex gap-3 items-center"><span className="text-[#42C2FF] font-medium w-16">Day 4</span> Osaka</div>
-                      <div className="flex gap-3 items-center"><span className="text-[#42C2FF] font-medium w-16">Day 5</span> Nara</div>
-                      <div className="flex gap-3 items-center"><span className="text-[#42C2FF] font-medium w-16">Day 6</span> Hiroshima</div>
-                      <div className="flex gap-3 items-center"><span className="text-[#42C2FF] font-medium w-16">Day 7</span> Tokyo shopping</div>
+                  <div className="max-w-[85%] px-6 py-5 rounded-3xl rounded-tl-lg bg-[#42C2FF]/[0.06] border border-[#42C2FF]/[0.1]">
+                    <p className="text-[14px] font-semibold text-white mb-4">Here&apos;s your optimized 7-day itinerary:</p>
+                    <div className="space-y-2.5">
+                      {itinerary.slice(0, visibleDays).map((item) => (
+                        <motion.div
+                          key={item.day}
+                          initial={{ opacity: 0, x: -8 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          className="flex gap-4 items-baseline"
+                        >
+                          <span className="text-[#42C2FF] font-bold text-[13px] w-14 shrink-0">Day {item.day}</span>
+                          <div>
+                            <span className="text-white font-medium text-[14px]">{item.city}</span>
+                            <span className="text-white/35 text-[13px] ml-2">{item.detail}</span>
+                          </div>
+                        </motion.div>
+                      ))}
                     </div>
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
-
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
+}
+
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

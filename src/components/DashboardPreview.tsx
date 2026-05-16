@@ -3,79 +3,149 @@
 import { motion } from 'framer-motion';
 import { Wallet, CloudSun, MapPin, TrendingUp } from 'lucide-react';
 
+const expenses = [
+  { label: 'Mon', pct: 35 },
+  { label: 'Tue', pct: 62 },
+  { label: 'Wed', pct: 48 },
+  { label: 'Thu', pct: 85 },
+  { label: 'Fri', pct: 55 },
+  { label: 'Sat', pct: 72 },
+  { label: 'Sun', pct: 40 },
+];
+
 export default function DashboardPreview() {
   return (
-    <section className="py-32 relative z-10">
+    <section className="relative z-10 py-32">
       <div className="max-w-6xl mx-auto px-6">
-        <div className="mb-16 text-center">
-          <h2 className="text-4xl font-bold tracking-tight">Powerful Dashboard</h2>
-          <p className="text-white/70 mt-4 max-w-xl mx-auto">Compact, intelligent widgets keeping you in control.</p>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-[clamp(2rem,4vw,3.2rem)] font-bold tracking-tight">
+            Powerful <span className="gradient-text">Dashboard</span>
+          </h2>
+          <p className="mt-4 text-white/40 text-lg max-w-lg mx-auto">Compact, intelligent widgets keeping you in control.</p>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
+
           {/* Budget Card */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="col-span-1 md:col-span-8 clay-card p-6 flex flex-col justify-between"
+            className="md:col-span-7 clay-card p-8"
           >
             <div className="flex items-start justify-between mb-8">
               <div>
-                <span className="text-white/60 text-sm font-medium flex items-center gap-2 mb-2"><Wallet className="w-4 h-4" /> Trip Budget</span>
-                <span className="text-4xl font-light">$2,840 <span className="text-lg text-white/40">/ $4,000</span></span>
+                <div className="flex items-center gap-2 text-white/40 text-[13px] font-medium mb-3">
+                  <Wallet className="w-4 h-4" />
+                  Trip Budget
+                </div>
+                <div className="text-[42px] font-light tracking-tight leading-none">
+                  $2,840
+                  <span className="text-[18px] text-white/25 ml-1">/ $4,000</span>
+                </div>
               </div>
-              <span className="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-medium rounded-full">On Track</span>
+              <span className="px-3.5 py-1.5 text-[11px] font-semibold text-emerald-400 bg-emerald-400/[0.08] border border-emerald-400/[0.12] rounded-full">
+                On Track
+              </span>
             </div>
-            <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
-              <div className="h-full w-[71%] bg-gradient-to-r from-[#42C2FF] to-[#6E5BFF] rounded-full" />
+            <div className="h-2 w-full bg-white/[0.04] rounded-full overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: '71%' }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                className="h-full bg-gradient-to-r from-[#42C2FF] to-[#6E5BFF] rounded-full"
+              />
+            </div>
+            <div className="flex justify-between mt-3 text-[11px] text-white/25">
+              <span>$0</span>
+              <span>$4,000</span>
             </div>
           </motion.div>
 
           {/* Weather Card */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="col-span-1 md:col-span-4 clay-card p-6 flex flex-col items-center justify-center text-center"
+            className="md:col-span-5 clay-card p-8 flex flex-col items-center justify-center text-center"
           >
-            <CloudSun className="w-12 h-12 text-[#42C2FF] mb-4" />
-            <span className="text-3xl font-light">22°C</span>
-            <span className="text-sm text-white/60 mt-1">Kyoto · Perfect Conditions</span>
+            <div className="w-16 h-16 rounded-2xl bg-[#42C2FF]/[0.08] border border-[#42C2FF]/[0.1] flex items-center justify-center mb-5">
+              <CloudSun className="w-8 h-8 text-[#42C2FF]" />
+            </div>
+            <span className="text-[46px] font-extralight tracking-tight leading-none">22°</span>
+            <span className="text-[13px] text-white/40 mt-2 font-medium">Kyoto · Clear Sky</span>
+            <div className="flex gap-4 mt-5 text-[11px] text-white/30">
+              <span>Humidity 45%</span>
+              <span>Wind 8km/h</span>
+            </div>
           </motion.div>
 
           {/* Map Preview */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="col-span-1 md:col-span-7 clay-card h-48 relative overflow-hidden p-0"
+            transition={{ delay: 0.15 }}
+            className="md:col-span-5 clay-card h-[200px] relative overflow-hidden"
           >
-            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2)_1px,transparent_1px)] bg-[size:24px_24px]" />
+            {/* Dot grid simulating map */}
+            <div className="absolute inset-0">
+              <div className="absolute inset-0 opacity-[0.15]" style={{
+                backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 1px)',
+                backgroundSize: '20px 20px'
+              }} />
+            </div>
+            {/* Route line */}
+            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 200">
+              <path d="M 60 140 Q 120 60 200 100 T 340 70" stroke="url(#routeGrad)" strokeWidth="2" fill="none" strokeDasharray="6 4" opacity="0.5" />
+              <defs>
+                <linearGradient id="routeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#42C2FF" />
+                  <stop offset="100%" stopColor="#A855F7" />
+                </linearGradient>
+              </defs>
+              <circle cx="60" cy="140" r="4" fill="#42C2FF" />
+              <circle cx="200" cy="100" r="4" fill="#6E5BFF" />
+              <circle cx="340" cy="70" r="4" fill="#A855F7" />
+            </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="bg-black/50 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-[#A855F7]" />
-                <span className="text-sm font-medium">Live Route Preview</span>
+              <div className="px-5 py-2.5 rounded-full bg-black/60 backdrop-blur-xl border border-white/[0.08] flex items-center gap-2">
+                <MapPin className="w-3.5 h-3.5 text-[#A855F7]" />
+                <span className="text-[13px] font-medium">Live Route</span>
               </div>
             </div>
           </motion.div>
 
           {/* Expense Chart */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="col-span-1 md:col-span-5 clay-card p-6 flex flex-col"
+            transition={{ delay: 0.2 }}
+            className="md:col-span-7 clay-card p-8"
           >
-            <span className="text-white/60 text-sm font-medium flex items-center gap-2 mb-6"><TrendingUp className="w-4 h-4" /> Expenses</span>
-            <div className="flex-1 flex items-end gap-2">
-              {[40, 70, 45, 90, 65, 80, 50].map((h, i) => (
-                <div key={i} className="flex-1 bg-white/10 rounded-t-sm" style={{ height: `${h}%` }}>
-                  <div className="w-full h-full bg-gradient-to-t from-[#6E5BFF]/80 to-transparent opacity-0 hover:opacity-100 transition-opacity" />
+            <div className="flex items-center gap-2 text-white/40 text-[13px] font-medium mb-8">
+              <TrendingUp className="w-4 h-4" />
+              Weekly Expenses
+            </div>
+            <div className="flex items-end gap-3 h-[100px]">
+              {expenses.map((e, i) => (
+                <div key={e.label} className="flex-1 flex flex-col items-center gap-2">
+                  <motion.div
+                    initial={{ height: 0 }}
+                    whileInView={{ height: `${e.pct}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                    className="w-full rounded-lg bg-gradient-to-t from-[#6E5BFF]/60 to-[#42C2FF]/30 hover:from-[#6E5BFF] hover:to-[#42C2FF]/60 transition-colors cursor-pointer"
+                  />
+                  <span className="text-[10px] text-white/25 font-medium">{e.label}</span>
                 </div>
               ))}
             </div>
