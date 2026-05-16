@@ -1,117 +1,67 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { Menu, X } from 'lucide-react';
+import { Moon, ChevronDown, Menu } from 'lucide-react';
+import { useState } from 'react';
 
-const links = [
-  { label: 'Home', href: '/' },
-  { label: 'Explore', href: '/explore' },
-  { label: 'Dashboard', href: '/dashboard' },
-  { label: 'Pricing', href: '/pricing' },
-];
+const navItems = ['Explore', 'Trips', 'AI Planner', 'Pricing'];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [active, setActive] = useState('Home');
-
-  useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 32);
-    window.addEventListener('scroll', handler, { passive: true });
-    return () => window.removeEventListener('scroll', handler);
-  }, []);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <>
-      <motion.header
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 h-[72px] flex items-center transition-all duration-500 ${
-          scrolled
-            ? 'bg-[#050816]/80 backdrop-blur-2xl border-b border-white/[0.04]'
-            : 'bg-transparent'
-        }`}
-      >
-        <div className="w-full max-w-7xl mx-auto px-6 flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="relative w-9 h-9 rounded-xl bg-gradient-to-br from-[#42C2FF] to-[#6E5BFF] flex items-center justify-center shadow-lg shadow-[#42C2FF]/20 group-hover:shadow-[#42C2FF]/40 transition-shadow">
-              <span className="text-white font-bold text-sm">T</span>
-              <div className="absolute inset-0 rounded-xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-            </div>
-            <span className="text-[17px] font-semibold tracking-tight">
-              Travel<span className="text-[#42C2FF]">OS</span>
-            </span>
-          </Link>
-
-          {/* Center Nav Pills */}
-          <nav className="hidden md:flex items-center gap-1 bg-white/[0.04] border border-white/[0.06] rounded-full px-1.5 py-1">
-            {links.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                onClick={() => setActive(link.label)}
-                className="relative px-5 py-2 text-[13px] font-medium transition-colors"
-              >
-                {active === link.label && (
-                  <motion.div
-                    layoutId="nav-pill"
-                    className="absolute inset-0 bg-white/[0.08] rounded-full"
-                    transition={{ type: 'spring', stiffness: 500, damping: 35 }}
-                  />
-                )}
-                <span className={`relative z-10 ${active === link.label ? 'text-white' : 'text-white/50 hover:text-white/80'}`}>
-                  {link.label}
-                </span>
-              </Link>
-            ))}
-          </nav>
-
-          {/* Right Actions */}
-          <div className="hidden md:flex items-center gap-3">
-            <Link href="/login" className="px-5 py-2 text-[13px] font-medium text-white/60 hover:text-white transition-colors">
-              Log in
-            </Link>
-            <Link href="/login" className="px-6 py-2.5 text-[13px] font-semibold text-[#050816] bg-white rounded-full hover:bg-white/90 hover:scale-[1.03] active:scale-[0.97] transition-all shadow-lg shadow-white/10">
-              Get Started
-            </Link>
+    <div className="fixed top-6 left-0 right-0 z-50 px-4 flex justify-center">
+      <nav className="w-full max-w-5xl glass-nav rounded-full px-6 py-3 flex items-center justify-between">
+        
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-md">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12A10 10 0 1 1 12 2a10 10 0 0 1 10 10z"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
           </div>
+          <span className="text-[17px] font-bold text-slate-900 tracking-tight">TravelOS</span>
+        </Link>
 
-          {/* Mobile Menu Toggle */}
-          <button className="md:hidden p-2 text-white/70" onClick={() => setOpen(!open)}>
-            {open ? <X size={22} /> : <Menu size={22} />}
+        {/* Desktop Links */}
+        <div className="hidden md:flex items-center gap-6">
+          <Link href="/" className="px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-[13px] font-semibold">
+            Home
+          </Link>
+          {navItems.map(item => (
+            <Link key={item} href="#" className="text-[13px] font-medium text-slate-600 hover:text-slate-900 transition-colors">
+              {item}
+            </Link>
+          ))}
+          <button className="flex items-center gap-1 text-[13px] font-medium text-slate-600 hover:text-slate-900 transition-colors">
+            Resources <ChevronDown className="w-3.5 h-3.5" />
           </button>
         </div>
-      </motion.header>
 
-      {/* Mobile Dropdown */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="fixed inset-x-0 top-[72px] z-40 bg-[#090B1A]/95 backdrop-blur-2xl border-b border-white/[0.06] p-6 flex flex-col gap-2 md:hidden"
-          >
-            {links.map((link) => (
-              <button
-                key={link.label}
-                onClick={() => { setActive(link.label); setOpen(false); }}
-                className="py-3 px-4 text-left text-[15px] font-medium text-white/70 hover:text-white hover:bg-white/5 rounded-2xl transition-colors"
-              >
-                {link.label}
-              </button>
-            ))}
-            <div className="mt-4 pt-4 border-t border-white/[0.06] flex flex-col gap-3">
-              <button className="py-3 text-[15px] font-medium text-white/60">Log in</button>
-              <button className="py-3 text-[15px] font-semibold bg-white text-black rounded-full">Get Started</button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+        {/* Right Actions */}
+        <div className="hidden md:flex items-center gap-4">
+          <button className="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200 transition-colors">
+            <Moon className="w-4 h-4" />
+          </button>
+          <button className="px-5 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-full text-[13px] font-semibold shadow-md shadow-blue-500/20 transition-all active:scale-95">
+            Get Started
+          </button>
+        </div>
+
+        {/* Mobile toggle */}
+        <button className="md:hidden text-slate-600" onClick={() => setIsOpen(!isOpen)}>
+          <Menu className="w-6 h-6" />
+        </button>
+
+      </nav>
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="absolute top-[70px] inset-x-4 bg-white rounded-2xl shadow-xl p-4 flex flex-col gap-3 md:hidden">
+          <Link href="/" className="p-2 bg-blue-50 text-blue-600 rounded-lg text-sm font-semibold">Home</Link>
+          {navItems.map(item => (
+            <Link key={item} href="#" className="p-2 text-sm font-medium text-slate-600">{item}</Link>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
