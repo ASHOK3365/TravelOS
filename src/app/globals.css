@@ -1,28 +1,29 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #F8FAFC;
-  --color-foreground: #0F172A;
+  --color-background: #F7FAFC;
+  --color-foreground: #1A202C;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --color-primary: #3B82F6;
-  --color-primary-light: #EFF6FF;
+  --color-primary: #2F80ED;
+  --color-primary-light: #56CCF2;
+  --color-secondary: #F9A826;
+  --color-accent: #6FCF97;
 }
 
 /* ─── GOOGLE FONT ─── */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --bg-color: #F8FAFC;
-  --text-main: #0F172A;
-  --text-muted: #64748B;
-  --primary: #3B82F6;
-  --primary-hover: #2563EB;
-  --card-bg: #FFFFFF;
-  --border-light: #E2E8F0;
+  --bg-color: #F7FAFC;
+  --bg-alt: #EAF4FF;
+  --text-main: #1A202C;
+  --text-muted: #4A5568;
+  --primary: #2F80ED;
+  --primary-light: #56CCF2;
+  --secondary: #F9A826;
+  --accent: #6FCF97;
   
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-2xl: 32px;
+  --radius-clay: 32px;
 }
 
 html {
@@ -39,7 +40,7 @@ body {
 }
 
 ::selection {
-  background: rgba(59, 130, 246, 0.2);
+  background: rgba(47, 128, 237, 0.2);
   color: var(--text-main);
 }
 
@@ -49,54 +50,91 @@ body {
 ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
 
-/* Utilities */
+/* ─── UTILITIES ─── */
 .glass-nav {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
   border: 1px solid rgba(255, 255, 255, 0.5);
   box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
 }
 
-.feature-card {
-  background: #FFFFFF;
-  border-radius: var(--radius-xl);
-  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+.clay-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-radius: var(--radius-clay);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 8px 8px 24px rgba(0,0,0,.08), -8px -8px 24px rgba(255,255,255,.9);
   transition: all 0.3s ease;
 }
 
-.feature-card:hover {
+.clay-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+  box-shadow: 12px 12px 30px rgba(0,0,0,.1), -10px -10px 30px rgba(255,255,255,1);
 }
 
-.dashboard-card {
-  background: #FFFFFF;
-  border-radius: var(--radius-2xl);
-  box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.08);
-  border: 1px solid var(--border-light);
+.clay-button {
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  border-radius: 9999px;
+  box-shadow: 4px 4px 12px rgba(47, 128, 237, 0.3), -4px -4px 12px rgba(255, 255, 255, 0.9);
+  color: white;
+  transition: all 0.3s ease;
 }
 
-.dashboard-widget {
-  background: #F8FAFC;
-  border-radius: var(--radius-lg);
-  padding: 16px;
+.clay-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 16px rgba(47, 128, 237, 0.4), -4px -4px 12px rgba(255, 255, 255, 1);
+}
+
+.clay-button:active {
+  transform: translateY(1px);
+  box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.1), inset -4px -4px 8px rgba(255, 255, 255, 0.5);
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+  background: linear-gradient(to right, #56CCF2, #2F80ED, #6FCF97);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Floating animation */
+/* Animations */
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  50% { transform: translateY(-10px); }
 }
 
 .animate-float {
-  animation: float 4s ease-in-out infinite;
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes orbit {
+  0% { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+}
+
+.orbit-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -32px;
+  margin-top: -32px;
+  animation: orbit 15s linear infinite;
+}
+
+.orbit-delay-1 { animation-delay: -5s; }
+.orbit-delay-2 { animation-delay: -10s; }
+
+/* Environment */
+.sky-bg {
+  background: linear-gradient(180deg, #EAF4FF 0%, #F7FAFC 100%);
+}
+
+.cloud {
+  position: absolute;
+  background: white;
+  border-radius: 100px;
+  filter: blur(20px);
+  opacity: 0.6;
 }
