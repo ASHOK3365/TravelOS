@@ -92,7 +92,7 @@ export default function Hero() {
         </div>
 
         {/* Right Content - Floating Cards & Animated Orbit */}
-        <div className="w-full lg:w-[45%] h-[500px] relative hidden lg:block">
+        <div className="w-full lg:w-[45%] h-[400px] lg:h-[500px] relative mt-16 lg:mt-0 scale-90 sm:scale-100 origin-top lg:origin-center">
           
           {/* Animated Dashed Orbit Line */}
           <svg className="absolute inset-0 w-full h-full -z-10" viewBox="0 0 400 400">
