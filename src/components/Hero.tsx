@@ -91,29 +91,58 @@ export default function Hero() {
 
         </div>
 
-        {/* Right Content - Floating Cards */}
+        {/* Right Content - Floating Cards & Animated Orbit */}
         <div className="w-full lg:w-[45%] h-[500px] relative hidden lg:block">
-          {/* Dashed line connecting them */}
+          
+          {/* Animated Dashed Orbit Line */}
           <svg className="absolute inset-0 w-full h-full -z-10" viewBox="0 0 400 400">
-            <path d="M 80 100 Q 200 50 300 150 T 200 300" fill="none" stroke="#E2E8F0" strokeWidth="2" strokeDasharray="6 6" />
+            <motion.path 
+              d="M 50 150 Q 200 50 320 180 T 250 380" 
+              fill="none" 
+              stroke="#CBD5E1" 
+              strokeWidth="2" 
+              strokeDasharray="8 8"
+              animate={{ strokeDashoffset: [0, -160] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+            />
           </svg>
+
+          {/* Floating Map Pins on the path */}
+          <motion.div 
+            animate={{ y: [0, -10, 0] }} 
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-[135px] left-[180px] w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md z-0"
+          >
+            <MapPin className="w-4 h-4 text-blue-500 fill-blue-100" />
+          </motion.div>
+          <motion.div 
+            animate={{ y: [0, -10, 0] }} 
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            className="absolute top-[150px] left-[220px] w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md z-0"
+          >
+            <MapPin className="w-4 h-4 text-blue-500 fill-blue-100" />
+          </motion.div>
+          <motion.div 
+            animate={{ y: [0, -10, 0] }} 
+            transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+            className="absolute bottom-[110px] right-[100px] w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md z-0"
+          >
+            <MapPin className="w-4 h-4 text-blue-500 fill-blue-100" />
+          </motion.div>
 
           {/* Norway Card */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5 }}
-            className="absolute top-[20px] left-[60px] animate-float bg-white/90 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-white flex items-center gap-3 w-[200px]"
+            className="absolute top-[70px] left-[10px] animate-float bg-white/95 backdrop-blur-md p-3 rounded-[24px] shadow-xl shadow-slate-200/50 border border-white flex items-center gap-4 w-[220px] z-10"
           >
-            <div className="w-12 h-12 rounded-xl bg-slate-200 overflow-hidden shrink-0">
+            <div className="w-12 h-12 rounded-full bg-slate-200 overflow-hidden shrink-0">
               <img src="https://images.unsplash.com/photo-1520769945061-0a448c463865?q=80&w=200&auto=format&fit=crop" alt="Norway" className="w-full h-full object-cover" />
             </div>
             <div>
-              <h4 className="text-[13px] font-bold text-slate-900">Norway</h4>
-              <p className="text-[10px] text-slate-500 font-medium">Aurora Season</p>
-            </div>
-            <div className="absolute -bottom-6 -right-6 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md">
-              <MapPin className="w-4 h-4 text-blue-500 fill-blue-100" />
+              <h4 className="text-[14px] font-bold text-slate-900 leading-tight">Norway</h4>
+              <p className="text-[11px] text-slate-500 font-medium">Aurora Season</p>
             </div>
           </motion.div>
 
@@ -122,17 +151,14 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.7 }}
-            className="absolute top-[120px] right-[20px] animate-float [animation-delay:1s] bg-white/90 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-white flex items-center gap-3 w-[200px]"
+            className="absolute top-[160px] right-[10px] animate-float [animation-delay:1s] bg-white/95 backdrop-blur-md p-3 rounded-[24px] shadow-xl shadow-slate-200/50 border border-white flex items-center gap-4 w-[220px] z-10"
           >
-            <div className="w-12 h-12 rounded-xl bg-slate-200 overflow-hidden shrink-0">
+            <div className="w-12 h-12 rounded-full bg-slate-200 overflow-hidden shrink-0">
               <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=200&auto=format&fit=crop" alt="Japan" className="w-full h-full object-cover" />
             </div>
             <div>
-              <h4 className="text-[13px] font-bold text-slate-900">Japan</h4>
-              <p className="text-[10px] text-slate-500 font-medium">Cherry Blossom</p>
-            </div>
-            <div className="absolute -top-6 -left-6 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md">
-              <MapPin className="w-4 h-4 text-blue-500 fill-blue-100" />
+              <h4 className="text-[14px] font-bold text-slate-900 leading-tight">Japan</h4>
+              <p className="text-[11px] text-slate-500 font-medium">Cherry Blossom</p>
             </div>
           </motion.div>
 
@@ -141,17 +167,14 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.9 }}
-            className="absolute bottom-[100px] left-[150px] animate-float [animation-delay:2s] bg-white/90 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-white flex items-center gap-3 w-[200px]"
+            className="absolute bottom-[80px] left-[120px] animate-float [animation-delay:2s] bg-white/95 backdrop-blur-md p-3 rounded-[24px] shadow-xl shadow-slate-200/50 border border-white flex items-center gap-4 w-[220px] z-10"
           >
-            <div className="w-12 h-12 rounded-xl bg-slate-200 overflow-hidden shrink-0">
+            <div className="w-12 h-12 rounded-full bg-slate-200 overflow-hidden shrink-0">
               <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=200&auto=format&fit=crop" alt="Bali" className="w-full h-full object-cover" />
             </div>
             <div>
-              <h4 className="text-[13px] font-bold text-slate-900">Bali</h4>
-              <p className="text-[10px] text-slate-500 font-medium">Tropical Paradise</p>
-            </div>
-            <div className="absolute -top-6 -right-6 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md">
-              <MapPin className="w-4 h-4 text-blue-500 fill-blue-100" />
+              <h4 className="text-[14px] font-bold text-slate-900 leading-tight">Bali</h4>
+              <p className="text-[11px] text-slate-500 font-medium">Tropical Paradise</p>
             </div>
           </motion.div>
 
