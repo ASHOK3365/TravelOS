@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Plane, Mic, Send } from 'lucide-react';
+import { Plane, Mic, Send, MapPin, Sparkles, Wallet } from 'lucide-react';
 
 const suggestions = ['Bali', 'Japan', 'Switzerland', 'Iceland'];
 const orbitCards = ['Tokyo', 'Bali', 'Paris', 'Swiss Alps'];
@@ -99,38 +99,71 @@ export default function Hero() {
         {/* RIGHT COLUMN - 3D GLOBE */}
         <div className="relative h-[600px] hidden lg:flex items-center justify-center">
           
-          {/* Static SVG Globe */}
-          <div className="absolute w-[400px] h-[400px] rounded-full shadow-[inset_-20px_-20px_60px_rgba(47,128,237,0.1),20px_20px_60px_rgba(47,128,237,0.15)] bg-gradient-to-br from-white to-[#EAF4FF] border border-white/60 flex items-center justify-center overflow-hidden">
-            <svg className="w-full h-full opacity-30 text-[#2F80ED]" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" strokeWidth="0.5" />
-              <ellipse cx="50" cy="50" rx="24" ry="48" fill="none" stroke="currentColor" strokeWidth="0.5" />
-              <ellipse cx="50" cy="50" rx="48" ry="24" fill="none" stroke="currentColor" strokeWidth="0.5" />
-              <line x1="50" y1="2" x2="50" y2="98" stroke="currentColor" strokeWidth="0.5" />
-              <line x1="2" y1="50" x2="98" y2="50" stroke="currentColor" strokeWidth="0.5" />
-            </svg>
+          {/* 3D Globe Image */}
+          <div className="relative w-[110%] h-[110%] flex items-center justify-center -mr-10">
+            <motion.img 
+              initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1 }}
+              src="/clay-globe.png" 
+              alt="3D Travel Globe" 
+              className="w-[90%] h-auto object-contain animate-[float_6s_ease-in-out_infinite]"
+            />
           </div>
 
-          {/* Animated Orbit Cards */}
-          <div className="absolute w-full h-full animate-[spin_20s_linear_infinite]">
-            {orbitCards.map((card, i) => (
-              <div 
-                key={card}
-                className="absolute top-1/2 left-1/2 w-full"
-                style={{ 
-                  transform: `translate(-50%, -50%) rotate(${i * 90}deg)`,
-                }}
-              >
-                <div 
-                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2"
-                >
-                  <div className="clay-card px-5 py-3 rounded-full font-bold text-[#1A202C] text-[14px] flex items-center gap-2 whitespace-nowrap animate-[spin_20s_linear_infinite_reverse]">
-                    <div className="w-2 h-2 rounded-full bg-[#56CCF2]" />
-                    {card}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          {/* Floating Cards */}
+          
+          {/* 1. Weather Card (Top Right) */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5 }}
+            className="absolute top-[10%] right-[0%] clay-card px-5 py-3 flex items-center gap-4 animate-[float_5s_ease-in-out_infinite_reverse]"
+          >
+            <div className="text-2xl drop-shadow-sm">⛅</div>
+            <div>
+              <p className="text-[16px] font-bold text-[#1A202C] leading-tight">24°C</p>
+              <p className="text-[11px] text-[#4A5568] font-medium">Paris</p>
+            </div>
+          </motion.div>
+
+          {/* 2. Explore Card (Left) */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.7 }}
+            className="absolute top-[35%] left-[-10%] clay-card px-5 py-3 flex items-center gap-4 animate-[float_6s_ease-in-out_infinite_1s]"
+          >
+            <div className="w-10 h-10 rounded-full bg-[#EAF4FF] flex items-center justify-center shadow-sm">
+              <MapPin className="w-5 h-5 text-[#8B5CF6] fill-[#8B5CF6]/20" />
+            </div>
+            <div>
+              <p className="text-[14px] font-bold text-[#1A202C] leading-tight">Explore</p>
+              <p className="text-[11px] text-[#4A5568] font-medium">Top Destinations</p>
+            </div>
+          </motion.div>
+
+          {/* 3. AI Itinerary Card (Right) */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.9 }}
+            className="absolute top-[55%] right-[-10%] clay-card px-5 py-3 flex items-center gap-4 animate-[float_5.5s_ease-in-out_infinite_2s]"
+          >
+            <div className="w-10 h-10 rounded-full bg-[#F3E8FF] flex items-center justify-center shadow-sm">
+              <Sparkles className="w-5 h-5 text-[#A855F7] fill-[#A855F7]/20" />
+            </div>
+            <div>
+              <p className="text-[14px] font-bold text-[#1A202C] leading-tight">AI Itinerary</p>
+              <p className="text-[11px] text-[#4A5568] font-medium">Personalized for you</p>
+            </div>
+          </motion.div>
+
+          {/* 4. Budget IQ Card (Bottom) */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.1 }}
+            className="absolute bottom-[10%] left-[20%] clay-card px-5 py-3 flex items-center gap-4 animate-[float_6.5s_ease-in-out_infinite_0.5s]"
+          >
+            <div className="w-10 h-10 rounded-full bg-[#DCFCE7] flex items-center justify-center shadow-sm">
+              <Wallet className="w-5 h-5 text-[#22C55E] fill-[#22C55E]/20" />
+            </div>
+            <div>
+              <p className="text-[14px] font-bold text-[#1A202C] leading-tight">Budget IQ</p>
+              <p className="text-[11px] text-[#4A5568] font-medium">Travel smartly</p>
+            </div>
+          </motion.div>
 
         </div>
 
