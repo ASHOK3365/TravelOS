@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #050816;
+  --color-foreground: #FFFFFF;
+}
+
+:root {
+  --bg-dark: #050816;
+  --color-cyan: #42C2FF;
+  --color-violet: #6E5BFF;
+  --color-purple: #A855F7;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: #FFFFFF;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-cyan), var(--color-violet), var(--color-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.clay-card {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 32px;
+  box-shadow: 
+    inset 0 1px 2px rgba(255, 255, 255, 0.05),
+    0 10px 40px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.clay-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(66, 194, 255, 0.15);
+  box-shadow: 
+    inset 0 1px 2px rgba(255, 255, 255, 0.05),
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(110, 91, 255, 0.1);
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
