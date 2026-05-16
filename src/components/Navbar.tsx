@@ -6,10 +6,10 @@ import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 
 const links = [
-  { label: 'Home', href: '#' },
-  { label: 'Explore', href: '#features' },
-  { label: 'Trips', href: '#ai-demo' },
-  { label: 'Pricing', href: '#pricing' },
+  { label: 'Home', href: '/' },
+  { label: 'Explore', href: '/explore' },
+  { label: 'Dashboard', href: '/dashboard' },
+  { label: 'Pricing', href: '/pricing' },
 ];
 
 export default function Navbar() {
@@ -50,12 +50,10 @@ export default function Navbar() {
           {/* Center Nav Pills */}
           <nav className="hidden md:flex items-center gap-1 bg-white/[0.04] border border-white/[0.06] rounded-full px-1.5 py-1">
             {links.map((link) => (
-              <button
+              <Link
                 key={link.label}
-                onClick={() => {
-                  setActive(link.label);
-                  document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' });
-                }}
+                href={link.href}
+                onClick={() => setActive(link.label)}
                 className="relative px-5 py-2 text-[13px] font-medium transition-colors"
               >
                 {active === link.label && (
@@ -68,18 +66,18 @@ export default function Navbar() {
                 <span className={`relative z-10 ${active === link.label ? 'text-white' : 'text-white/50 hover:text-white/80'}`}>
                   {link.label}
                 </span>
-              </button>
+              </Link>
             ))}
           </nav>
 
           {/* Right Actions */}
           <div className="hidden md:flex items-center gap-3">
-            <button className="px-5 py-2 text-[13px] font-medium text-white/60 hover:text-white transition-colors">
+            <Link href="/login" className="px-5 py-2 text-[13px] font-medium text-white/60 hover:text-white transition-colors">
               Log in
-            </button>
-            <button className="px-6 py-2.5 text-[13px] font-semibold text-[#050816] bg-white rounded-full hover:bg-white/90 hover:scale-[1.03] active:scale-[0.97] transition-all shadow-lg shadow-white/10">
+            </Link>
+            <Link href="/login" className="px-6 py-2.5 text-[13px] font-semibold text-[#050816] bg-white rounded-full hover:bg-white/90 hover:scale-[1.03] active:scale-[0.97] transition-all shadow-lg shadow-white/10">
               Get Started
-            </button>
+            </Link>
           </div>
 
           {/* Mobile Menu Toggle */}
